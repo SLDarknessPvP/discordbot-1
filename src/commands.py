@@ -19,14 +19,14 @@ class FoxxBotCog():
                 content = await res.json()
                 is_live = content["stream"]
             except KeyError:
-                bot_res = "Sorry user could not be found."
+                await self.boy.say("Sorry user could not be found.")
             else:
                 if is_live is None:
                     bot_res = "Sorry {} is not live".format(user)
                 else:
-                    bot_rese = "{} is live! Watch Now! {}".format(user,link)
+                    bot_res = "{} is live! Watch Now! {}".format(user,link)
         
-        await self.bot.say(bot_response)
+        await self.bot.say(bot_res)
 
 
 
