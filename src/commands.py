@@ -1,21 +1,34 @@
-from bot import Bot
+from discord.ext import commands
+import aiohttp
+import logging
 
-b = Bot()
 
-@b.event
-async def on_ready():
-    print ("Logged in as")
-    print (b.user.name)
-    print (b.user.id)
-    print ("------")
 
-@b.command()
-async def roll(dice : str):
-    """Rolls a dice in NdN format"""
-    try:
-        rolls, limit = map(int, dice.split("d"))
-    except Exception:
-        await b.say("Format has to be in NdN!")
-        return
-    result = ",".join(str(random.randint(1,limit)) for r in range(rolls))
-    await b.say(result)
+class FoxxBotCog():
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @commands.command()
+    async def twitch(self,user : str):
+        """returns a twitch channel, if a user is live."""
+        url = "https://api.twitch.tv/kraken/streams/{}".format(user)
+        res = await aiohttp.get(url)
+        link = "https://twitch.tv/{}".format(user)
+        async with aiohttp.get(url) as res:            
+            try:
+                content = await res.json()
+                is_live = content["stream"]
+            except KeyError:
+                bot_res = "Sorry user could not be found."
+            else:
+                if is_live is None:
+                    bot_res = "Sorry {} is not live".format(user)
+                else:
+                    bot_rese = "{} is live! Watch Now! {}".format(user,link)
+        
+        await self.bot.say(bot_response)
+
+
+
+def setup(bot):
+    bot.add_cog(FoxxBotCog(bot))
