@@ -14,17 +14,19 @@ class FoxxBotCog():
         url = "https://api.twitch.tv/kraken/streams/{}".format(user)
         res = await aiohttp.get(url)
         link = "https://twitch.tv/{}".format(user)
-        res = aiohttp.get(url)        
-        try:
-            content = await res.json()
-            is_live = content["stream"]
-        except KeyError:
-            await self.bot.say("Sorry user could not be found.")
-        else:
-            if is_live is None:
-                bot_res = "Sorry {} is not live".format(user)
+
+
+        async with aiohttp.get(url) as res:            
+            try:
+                content = await res.json()
+                is_live = content["stream"]
+            except KeyError:
+                await self.boy.say("Sorry user could not be found.")
             else:
-                bot_res = "{} is live! Watch Now! {}".format(user,link)
+                if is_live is None:
+                    bot_res = "Sorry {} is not live".format(user)
+                else:
+                    bot_res = "{} is live! Watch Now! {}".format(user,link)
         
         await self.bot.say(bot_res)
 
