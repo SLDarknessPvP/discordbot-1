@@ -36,8 +36,11 @@ async def add(name : str, *msg : str):
     bot.add_command(cmd)
     
     await bot.say("command added")
-        
-        
+
+@bot.command()
+async def remove(name : str):
+    bot.remove_command(name)        
+    await bot.say("command removed")    
         
 def get_bot():
     return bot        
