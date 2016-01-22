@@ -1,14 +1,11 @@
-from foxxbot import FoxxBot
+from foxxbot import get_bot
 import logging
 
 
 def setup_logging():
-    logging.basicConfig(filename="foxxbot.log",level=logging.DEBUG)
+    logging.basicConfig(filename="foxxbot.log",level=logging.ERROR)
 
 
-if __name__ == "__main__":
-      setup_logging()
-      b = FoxxBot() 
-      b.load_extension("commands")
-      b.load_extension("random_commands")
-      b.run("user","pass")   
+setup_logging()
+b = get_bot()      
+b.activate()     
