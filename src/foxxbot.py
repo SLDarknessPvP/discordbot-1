@@ -34,7 +34,6 @@ async def add(name : str, *msg : str):
     f = asyncio.coroutine(lambda: bot.say(" ".join(msg)))
     cmd = commands.Command(name,callback=f)
     bot.add_command(cmd)
-    
     await bot.say("command added")
 
 @bot.command()
