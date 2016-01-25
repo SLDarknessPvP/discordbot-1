@@ -10,7 +10,7 @@ class RandomCog():
 
     @commands.command()
     async def choose(self, *choices : str):
-        """picks a random choice from choices."""
+        """Picks a random choice from choices."""
         await self.bot.say(random.choice(choices))
     
     @commands.command()
@@ -33,13 +33,18 @@ class RandomCog():
     
     @commands.command()
     async def giphy(self, *q : str):
-        """returns a random gif from a giphy search of phrase"""
+        """Returns a random gif from a giphy search of phrase"""
         g = Giphy()
         phrase = " ".join(q)
         results = [x for x in g.search(phrase)]
         img = random.choice(results)
         await self.bot.say(img.media_url)
         
+    @commands.command()
+    async def pokemon(self):
+        """Displays a random pokemon name"""     
+        choice = random.choice(self.bot.pokemon_list)
+        await self.bot.say(choice) 
 
 def setup(bot):
     bot.add_cog(RandomCog(bot))

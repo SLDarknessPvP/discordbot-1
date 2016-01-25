@@ -10,7 +10,7 @@ class FoxxBotCog():
     
     @commands.command()
     async def twitch(self,user : str):
-        """returns a twitch channel, if a user is live."""
+        """Returns a twitch channel, if a user is live."""
         url = "https://api.twitch.tv/kraken/streams/{}".format(user)
         link = "https://twitch.tv/{}".format(user)
 
@@ -31,7 +31,7 @@ class FoxxBotCog():
      
     @commands.command(description="Interested in seeing what makes Foxxbot...Foxxbot")
     async def source(self):
-        """displays the source code link for Foxxbot"""
+        """Displays the source code link for Foxxbot"""
         await self.bot.say("https://github.com/ggreenleaf/discordbot.git")   
 
 def setup(bot):

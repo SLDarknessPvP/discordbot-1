@@ -1,4 +1,4 @@
-from foxxbot import get_bot
+from bot import get_bot
 import logging
 
 
