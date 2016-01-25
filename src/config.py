@@ -6,8 +6,10 @@ class Config(object):
         with open(filename) as f:
             config = json.load(f)
         
-        self.name = config["name"]
+        self.username = config["username"]
         self.version = config["version"]
         self.cogs = config["cogs"]
-        self.username = config["username"]
+        self.email = config["email"]
         self.password = config["password"]
+        self.pokemon_file = config["pokemon"]
+        self.description = config["description"]
