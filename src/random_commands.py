@@ -1,10 +1,8 @@
 from discord.ext import commands
 import random
 import logging
-from giphypop import Giphy
 
-
-class RandomCog():
+class RandomCommands():
     def __init__(self, bot):
         self.bot = bot
 
@@ -30,16 +28,7 @@ class RandomCog():
         
         result = ",".join(str(random.randint(1,limit)) for r in range(rolls))
         await self.bot.say(result)    
-    
-    @commands.command()
-    async def giphy(self, *q : str):
-        """Returns a random gif from a giphy search of phrase"""
-        g = Giphy()
-        phrase = " ".join(q)
-        results = [x for x in g.search(phrase)]
-        img = random.choice(results)
-        await self.bot.say(img.media_url)
-        
+       
     @commands.command()
     async def pokemon(self):
         """Displays a random pokemon name"""     
@@ -47,4 +36,4 @@ class RandomCog():
         await self.bot.say(choice) 
 
 def setup(bot):
-    bot.add_cog(RandomCog(bot))
+    bot.add_cog(RandomCommands(bot))

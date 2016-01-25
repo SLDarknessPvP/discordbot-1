@@ -13,3 +13,4 @@ class Config(object):
         self.password = config["password"]
         self.pokemon_file = config["pokemon"]
         self.description = config["description"]
+        self.wolfram_id = config["wolfram_id"]

@@ -4,7 +4,7 @@ import logging
 from giphypop import Giphy
 
 
-class FoxxBotCog():
+class Commands():
     def __init__(self, bot):
         self.bot = bot
     
@@ -35,4 +35,4 @@ class FoxxBotCog():
         await self.bot.say("https://github.com/ggreenleaf/discordbot.git")   
 
 def setup(bot):
-    bot.add_cog(FoxxBotCog(bot))
+    bot.add_cog(Commands(bot))

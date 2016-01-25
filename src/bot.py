@@ -3,6 +3,7 @@ from discord.ext import commands
 import logging
 from config import Config
 import asyncio
+import wolframalpha
 
 class FoxxBot(commands.Bot):
     def __init__(self, config):
@@ -11,6 +12,7 @@ class FoxxBot(commands.Bot):
         with open(config.pokemon_file) as f:
             self.pokemon_list = f.read().split("\n")
         self.custom_commands = [] 
+        self.wolfram_client = wolframalpha.Client(config.wolfram_id)
         super().__init__(command_prefix="!", description=description)
     
     async def on_ready(self):
