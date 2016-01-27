@@ -14,3 +14,4 @@ class Config(object):
         self.pokemon_file = config["pokemon"]
         self.description = config["description"]
         self.wolfram_id = config["wolfram_id"]
+        self.emotes = config["emotes"]

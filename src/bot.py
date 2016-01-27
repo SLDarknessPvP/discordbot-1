@@ -13,6 +13,7 @@ class FoxxBot(commands.Bot):
             self.pokemon_list = f.read().split("\n")
         self.custom_commands = [] 
         self.wolfram_client = wolframalpha.Client(config.wolfram_id)
+        self.emote_list = config.emotes
         super().__init__(command_prefix="!", description=description)
     
     async def on_ready(self):
@@ -24,6 +25,23 @@ class FoxxBot(commands.Bot):
         server = member.server
         fmt = "Welcome {0.mention} to {1.name}"
         await self.say(fmt.format(member, server))    
+    
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
+   
+        splt = message.content.lower().split()
+        intersection = list(set(splt) & set(self.emote_list))    
+        try:
+            if intersection:
+                for emote in intersection:
+                    fname = "src/emotes/{}.png".format(emote)    
+                    with open(fname,"rb") as fp:
+                        await self.send_file(message.channel, fp)
+        except FileNotFoundError:
+            logging.error("Could not find emote {}".format(emote))
+        finally:
+            await self.process_commands(message)    
     
     def activate(self):
         self.run(self.config.email, self.config.password)    
@@ -53,6 +71,6 @@ async def remove(name : str):
         bot.custom_commands.remove(name)
         bot.remove_command(name)        
         await bot.say("{} command removed.".format(name))    
-    
+ 
 def get_bot():
     return bot
