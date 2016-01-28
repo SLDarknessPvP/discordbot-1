@@ -45,7 +45,6 @@ class FoxxBot(commands.Bot):
                 except FileNotFoundError:
                     emote_id = self.emote_map[emote_name]
                     url = "http://static-cdn.jtvnw.net/emoticons/v1/{}/1.0".format(emote_id)
-                    print (url)
                     async with aiohttp.get(url) as res:
                         content = await res.read()
                         with open(fname,"wb") as fp:
