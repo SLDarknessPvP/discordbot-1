@@ -17,7 +17,7 @@ class FoxxBot(commands.Bot):
         self.wolfram_client = wolframalpha.Client(config.wolfram_id)
         with open("src/config/emote2id.json") as f:
             self.emote_map = json.load(f)
-        
+        self.custom_emotes = ["karpa"]
         super().__init__(command_prefix="!", description=description)
     
     async def on_ready(self):
@@ -35,7 +35,7 @@ class FoxxBot(commands.Bot):
             return
    
         splt = message.content.split()
-        intersection = set(splt) & set(self.emote_map.keys())
+        intersection = set(splt) & (set(self.emote_map.keys()) | set(self.custom_emotes))
         if intersection:
             for emote_name in intersection:
                 fname = "src/emotes/{}.png".format(emote_name)    
