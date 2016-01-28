@@ -3,6 +3,8 @@ from discord.ext import commands
 import logging
 from config import Config
 import asyncio
+import aiohttp
+import json
 import wolframalpha
 
 class FoxxBot(commands.Bot):
@@ -13,7 +15,9 @@ class FoxxBot(commands.Bot):
             self.pokemon_list = f.read().split("\n")
         self.custom_commands = [] 
         self.wolfram_client = wolframalpha.Client(config.wolfram_id)
-        self.emote_list = config.emotes
+        with open("src/config/emote2id.json") as f:
+            self.emote_map = json.load(f)
+        
         super().__init__(command_prefix="!", description=description)
     
     async def on_ready(self):
@@ -30,18 +34,25 @@ class FoxxBot(commands.Bot):
         if message.author == self.user:
             return
    
-        splt = message.content.lower().split()
-        intersection = list(set(splt) & set(self.emote_list))    
-        try:
-            if intersection:
-                for emote in intersection:
-                    fname = "src/emotes/{}.png".format(emote)    
+        splt = message.content.split()
+        intersection = set(splt) & set(self.emote_map.keys())
+        if intersection:
+            for emote_name in intersection:
+                fname = "src/emotes/{}.png".format(emote_name)    
+                try:
                     with open(fname,"rb") as fp:
                         await self.send_file(message.channel, fp)
-        except FileNotFoundError:
-            logging.error("Could not find emote {}".format(emote))
-        finally:
-            await self.process_commands(message)    
+                except FileNotFoundError:
+                    emote_id = self.emote_map[emote_name]
+                    url = "http://static-cdn.jtvnw.net/emoticons/v1/{}/1.0".format(emote_id)
+                    print (url)
+                    async with aiohttp.get(url) as res:
+                        content = await res.read()
+                        with open(fname,"wb") as fp:
+                            fp.write(content)
+                        with open(fname,"rb") as fp:
+                            await self.send_file(message.channel, fp)           
+        await self.process_commands(message)    
     
     def activate(self):
         self.run(self.config.email, self.config.password)    
